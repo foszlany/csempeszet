@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/tile_bg"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="209dp"
@@ -52,7 +53,7 @@
             android:layout_marginTop="32dp"
             android:ems="10"
             android:hint="@string/login_email"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:textColor="@color/black"
             android:textColorHint="@color/strong_hint"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +94,9 @@
             android:layout_width="155dp"
             android:layout_height="51dp"
             android:backgroundTint="@color/login_btn"
+            android:onClick="btn_login"
             android:text="@string/login_login"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:cornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -108,9 +111,10 @@
             android:layout_width="184dp"
             android:layout_height="49dp"
             android:backgroundTint="#00FFFFFF"
+            android:onClick="btn_register"
             android:text="@string/login_no_account"
             android:textAlignment="center"
-            android:textColor="#FF5E5E"
+            android:textColor="@color/simple_link"
             android:textColorLink="@color/black"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"

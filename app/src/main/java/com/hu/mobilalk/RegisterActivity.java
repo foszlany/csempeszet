@@ -7,13 +7,13 @@ import android.view.View;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
         /*
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -23,12 +23,13 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
-    public void btn_register(View view) {
-        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+
+    public void activity_login(View view) {
+        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void btn_login(View view) {
+    public void register_button(View view) {
 
     }
 }

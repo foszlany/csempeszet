@@ -3,5 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="strong_hint">#666A6A</color>
+    <color name="simple_link">#000650</color>
     <color name="login_btn">#FF6308</color>
+    <color name="register_btn">#FF2508</color>
 </resources>
