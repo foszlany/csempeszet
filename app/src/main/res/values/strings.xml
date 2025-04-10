@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Csempészet</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Jelszó</string>
+    <string name="login_login">Bejelentkezés</string>
+    <string name="login_no_account">Még nem regisztráltam</string>
+
+</resources>
