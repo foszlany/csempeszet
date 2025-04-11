@@ -8,7 +8,7 @@
     tools:context=".RegisterActivity">
 
     <EditText
-        android:id="@+id/register_edittext_password_verify2"
+        android:id="@+id/register_edittext_password_verify"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="136dp"
@@ -18,29 +18,29 @@
         android:inputType="textPassword"
         android:textColor="@color/black"
         android:textColorHint="@color/strong_hint"
-        app:layout_constraintBottom_toTopOf="@+id/register_checkbox_data2"
+        app:layout_constraintBottom_toTopOf="@+id/register_checkbox_data"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/register_edittext_password2"
+        android:id="@+id/register_edittext_password"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="136dp"
         android:layout_marginBottom="20dp"
         android:ems="10"
-        android:hint="@string/login_password"
+        android:hint="@string/register_password"
         android:inputType="textPassword"
         android:textColor="@color/black"
         android:textColorHint="@color/strong_hint"
-        app:layout_constraintBottom_toTopOf="@+id/register_edittext_password_verify2"
+        app:layout_constraintBottom_toTopOf="@+id/register_edittext_password_verify"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/register_edittext_email2"
+        android:id="@+id/register_edittext_email"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="136dp"
@@ -50,13 +50,13 @@
         android:inputType="textEmailAddress"
         android:textColor="@color/black"
         android:textColorHint="@color/strong_hint"
-        app:layout_constraintBottom_toTopOf="@+id/register_edittext_password2"
+        app:layout_constraintBottom_toTopOf="@+id/register_edittext_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView3" />
 
     <Button
-        android:id="@+id/register_btn_back2"
+        android:id="@+id/register_btn_back"
         android:layout_width="101dp"
         android:layout_height="57dp"
         android:backgroundTint="#00FFFFFF"
@@ -70,23 +70,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.622"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_checkbox_data2"
+        app:layout_constraintTop_toBottomOf="@+id/register_checkbox_data"
         app:layout_constraintVertical_bias="0.425" />
 
     <Button
-        android:id="@+id/register_button_register2"
+        android:id="@+id/register_button_register"
         android:layout_width="171dp"
         android:layout_height="57dp"
         android:backgroundTint="@color/register_btn"
+        android:onClick="register_button"
         android:text="@string/register_iregister"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/register_btn_back2"
+        app:layout_constraintEnd_toStartOf="@+id/register_btn_back"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_checkbox_data2"
+        app:layout_constraintTop_toBottomOf="@+id/register_checkbox_data"
         app:layout_constraintVertical_bias="0.425" />
 
     <TextView
@@ -104,7 +105,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
-        android:id="@+id/register_checkbox_data2"
+        android:id="@+id/register_checkbox_data"
         android:layout_width="342dp"
         android:layout_height="58dp"
         android:text="@string/register_data"

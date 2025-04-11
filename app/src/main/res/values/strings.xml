@@ -6,6 +6,7 @@
     <string name="login_no_account">Még nem regisztráltam</string>
     <string name="register_register">Regisztráció</string>
     <string name="register_back">Vissza</string>
+    <string name="register_password">Jelszó (8–32 karakter)</string>
     <string name="register_confirm_password">Jelszó még egyszer</string>
     <string name="register_iregister">Regisztrálok</string>
     <string name="register_data">Regisztrációmmal elfogadom, hogy adataim bizalmatlanul lesznek kezelve és el lesznek adva harmadik feleknek.</string>
