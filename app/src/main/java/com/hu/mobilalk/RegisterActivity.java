@@ -1,16 +1,23 @@
 package com.hu.mobilalk;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.checkbox.MaterialCheckBox;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String LOG_TAG = RegisterActivity.class.getName();
@@ -26,12 +33,37 @@ public class RegisterActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        View text_decoration = findViewById(R.id.text_decoration);
+        text_decoration.startAnimation(fadeIn);
+
         this.email = findViewById(R.id.register_edittext_email);
         this.password_1 = findViewById(R.id.register_edittext_password);
         this.password_2 = findViewById(R.id.register_edittext_password_verify);
         this.data = findViewById(R.id.register_checkbox_data);
     }
 
+    // ANIMATES CHECKBOX TEXT COLOR
+    public void animate(View view) {
+        boolean val = this.data.isChecked();
+        ValueAnimator animator;
+
+        if(val) {
+            animator = ValueAnimator.ofArgb(Color.BLACK, Color.MAGENTA);
+        }
+        else {
+            animator = ValueAnimator.ofArgb(Color.MAGENTA, Color.BLACK);
+        }
+
+        animator.setDuration(250);
+
+        animator.addUpdateListener(animation -> {
+            int animatedColor = (int) animation.getAnimatedValue();
+            ((TextView) view).setTextColor(animatedColor);
+        });
+
+        animator.start();
+    }
 
     // OPENS LOGIN ACTIVITY
     public void activity_login(View view) {

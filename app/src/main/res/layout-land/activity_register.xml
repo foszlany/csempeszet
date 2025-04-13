@@ -108,6 +108,7 @@
         android:id="@+id/register_checkbox_data"
         android:layout_width="342dp"
         android:layout_height="58dp"
+        android:onClick="animate"
         android:text="@string/register_data"
         android:textAlignment="gravity"
         android:textColor="@color/black"
