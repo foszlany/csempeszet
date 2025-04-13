@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "56233314141",
+    "project_id": "csempeszet",
+    "storage_bucket": "csempeszet.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56233314141:android:aed321308990b71cd08ab4",
+        "android_client_info": {
+          "package_name": "com.hu.mobilalk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWhNXciJ8EoopvBXS5-74d1x765YTBTS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

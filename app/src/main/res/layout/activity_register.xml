@@ -41,7 +41,7 @@
         android:id="@+id/register_edittext_password_verify"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="48dp"
         android:ems="10"
         android:hint="@string/register_confirm_password"
         android:inputType="textPassword"
@@ -102,8 +102,8 @@
 
     <CheckBox
         android:id="@+id/register_checkbox_data"
-        android:layout_width="342dp"
-        android:layout_height="58dp"
+        android:layout_width="292dp"
+        android:layout_height="57dp"
         android:layout_marginBottom="16dp"
         android:onClick="animate"
         android:text="@string/register_data"
