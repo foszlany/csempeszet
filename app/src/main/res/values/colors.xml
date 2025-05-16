@@ -6,4 +6,6 @@
     <color name="simple_link">#000650</color>
     <color name="login_btn">#FF6308</color>
     <color name="register_btn">#FF2508</color>
+    <color name="shop_price">#40FF00</color>
+    <color name="shop_add_to_cart">#720AD3</color>
 </resources>

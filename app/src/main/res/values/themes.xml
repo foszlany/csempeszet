@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Csempeszet" parent="Base.Theme.Csempeszet" />
+
+    <style name="menu_style" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:itemBackground">@android:color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
 </resources>

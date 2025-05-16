@@ -10,4 +10,72 @@
     <string name="register_confirm_password">Jelszó még egyszer</string>
     <string name="register_iregister">Regisztrálok</string>
     <string name="register_data">Regisztrációmmal elfogadom, hogy adataim bizalmatlanul lesznek kezelve és el lesznek adva harmadik feleknek.</string>
+    <string name="shop_item_title_example">Example Item</string>
+    <string name="shop_item_desc_example">Lorem Ipsum Dolomet blabla lorem50 sajt macska cica disznoporkolt</string>
+    <string name="shop_item_price_example">9999</string>
+    <string name="shop_item_add_to_cart">Kosárba</string>
+    <string name="shop_search_bar">Keresés</string>
+    <string name="shop_log_out">Kijelentkezés</string>
+    <string name="shop_settings">Beállítások</string>
+    <string name="shop_cart">Kosár</string>
+
+    <string-array name="shop_item_names">
+        <item>Bézs csempe</item>
+        <item>Fehér négyzet</item>
+        <item>Kék márvány</item>
+        <item>Négyes mix</item>
+        <item>Krém mozaik</item>
+        <item>Hatszög dzsungel</item>
+        <item>Homok csempe</item>
+        <item>Zebracsapda</item>
+        <item>Szürke téglák</item>
+        <item>Kávés téglák</item>
+        <item>Modern beton</item>
+        <item>Optikai káprázat</item>
+    </string-array>
+
+    <string-array name="shop_item_descriptions">
+        <item>Elegáns bézs, klasszikus választás</item>
+        <item>Egyszerű fehér, letisztult dizájn</item>
+        <item>Kék márvány, luxus érzet</item>
+        <item>Különleges mintázat, modern hatás</item>
+        <item>Krémes árnyalat, meleg hangulat</item>
+        <item>Trópusi stílus, egy kis dzsungel</item>
+        <item>Homokszín, természetes megjelenés</item>
+        <item>Kontrasztos csíkok, karakteres csempe</item>
+        <item>Szürke téglák, ipari hangulat</item>
+        <item>Meleg kávébarna, barátságos tér</item>
+        <item>Betonhatás, modern minimalizmus</item>
+        <item>Optikai illúzió, dinamikus látvány</item>
+    </string-array>
+
+    <string-array name="shop_item_prices">
+        <item>5432</item>
+        <item>12678</item>
+        <item>9015</item>
+        <item>14299</item>
+        <item>7854</item>
+        <item>11490</item>
+        <item>4999</item>
+        <item>13745</item>
+        <item>6723</item>
+        <item>10210</item>
+        <item>8567</item>
+        <item>14999</item>
+    </string-array>
+
+    <array name="shop_item_images">
+        <item>@drawable/t1</item>
+        <item>@drawable/t2</item>
+        <item>@drawable/t3</item>
+        <item>@drawable/t4</item>
+        <item>@drawable/t5</item>
+        <item>@drawable/t6</item>
+        <item>@drawable/t7</item>
+        <item>@drawable/t8</item>
+        <item>@drawable/t9</item>
+        <item>@drawable/t10</item>
+        <item>@drawable/t11</item>
+        <item>@drawable/t12</item>
+    </array>
 </resources>

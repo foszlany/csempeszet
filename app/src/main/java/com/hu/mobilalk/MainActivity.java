@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             else {
+                Log.e(LOG_TAG, "User creation failed!");
                 Toast.makeText(MainActivity.this, "Sikertelen bejelentkezés!", Toast.LENGTH_LONG).show();
             }
         });

@@ -37,6 +37,10 @@ dependencies {
     implementation libs.activity
     implementation libs.constraintlayout
     implementation libs.firebase.auth
+    implementation libs.recyclerview.selection
+    implementation libs.recyclerview
+    implementation libs.glide
+    implementation libs.cardview
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
