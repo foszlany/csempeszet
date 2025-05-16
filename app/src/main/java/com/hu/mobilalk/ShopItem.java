@@ -4,7 +4,9 @@ public class ShopItem {
     private String name;
     private String desc;
     private int price;
-    private final int image_resource;
+    private int image_resource;
+
+    public ShopItem() {}
 
     public ShopItem(String name, String desc, int price, int imageResource) {
         this.image_resource = imageResource;

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:theme="@style/menu_style">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/shop_search_bar"
         android:title="@string/shop_search_bar"
         android:icon="@drawable/search"
+        android:tint="@android:color/white"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView"
         />
@@ -15,22 +14,22 @@
         android:id="@+id/shop_cart"
         android:title="@string/shop_cart"
         android:icon="@drawable/cart"
-        app:showAsAction="ifRoom"
+        android:tint="@android:color/white"
+        app:showAsAction="always"
         />
 
     <item
-        android:id="@+id/shop_setting"
-        android:title="@string/shop_settings"
-        android:icon="@drawable/settings"
-        android:orderInCategory="1"
-        app:showAsAction="never"
+        android:id="@+id/shop_filter"
+        android:title="@string/shop_filters"
+        android:icon="@drawable/filter"
+        app:showAsAction="always"
         />
 
     <item
         android:id="@+id/shop_logout"
         android:title="@string/shop_log_out"
         android:icon="@drawable/logout"
-        android:orderInCategory="2"
-        app:showAsAction="never"
+        android:tint="@android:color/white"
+        app:showAsAction="always"
         />
 </menu>

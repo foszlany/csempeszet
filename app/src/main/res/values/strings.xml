@@ -16,8 +16,11 @@
     <string name="shop_item_add_to_cart">Kosárba</string>
     <string name="shop_search_bar">Keresés</string>
     <string name="shop_log_out">Kijelentkezés</string>
-    <string name="shop_settings">Beállítások</string>
+    <string name="shop_filters">Szűrők</string>
     <string name="shop_cart">Kosár</string>
+    <string name="shop_menu_filter_all">Összes</string>
+    <string name="shop_menu_filter_pricehl">Ár szerint csökkenő</string>
+    <string name="shop_menu_filter_pricelh">Ár szerint növekvő</string>
 
     <string-array name="shop_item_names">
         <item>Bézs csempe</item>
