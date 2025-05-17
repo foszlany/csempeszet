@@ -41,7 +41,17 @@ public class NotificationHandler {
     }
 
     public void send(String msg, int ID) {
-        Intent intent = new Intent(mContext, ShopActivity.class); // CHANGE TO CARTACTIVITY
+        Intent intent;
+        if(ID == NOTIFICATION_CART) {
+            intent = new Intent(mContext, CartActivity.class);
+        }
+        else if(ID == NOTIFICATION_COUPON) {
+            intent = new Intent(mContext, GamblingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        }
+        else {
+            return;
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, ID, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);

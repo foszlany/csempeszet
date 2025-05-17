@@ -23,6 +23,12 @@
     <string name="shop_menu_filter_pricelh">Ár szerint növekvő</string>
     <string name="shop_menu_filter_az">A-Z</string>
     <string name="shop_menu_filter_za">Z-A</string>
+    <string name="gamble_title">Szerencsekerék</string>
+    <string name="gamble_win_big">Nyerj nagyokat!</string>
+    <string name="gamble_btn_spin">Hadd pörögjön!</string>
+    <string name="shop_home">Vissza a főmenübe</string>
+    <string name="cart_item_plus">+</string>
+    <string name="cart_item_minus">-</string>
 
     <string-array name="shop_item_names">
         <item>Bézs csempe</item>

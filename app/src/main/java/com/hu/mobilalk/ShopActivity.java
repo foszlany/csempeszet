@@ -1,31 +1,32 @@
 package com.hu.mobilalk;
 
 import static com.hu.mobilalk.NotificationHandler.NOTIFICATION_CART;
+import static com.hu.mobilalk.NotificationHandler.NOTIFICATION_COUPON;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.SearchView;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,13 +38,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ShopActivity extends AppCompatActivity {
-    private static final String LOG_TAG = ShopActivity.class.getName();
-
     private FirebaseUser user;
-    private FirebaseAuth mAuth;
 
     private RecyclerView mRecyclerView;
     private ArrayList<ShopItem> mItemList;
@@ -63,7 +60,6 @@ public class ShopActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_shop);
 
-        mAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         
         // UNAUTHENTICATED USER
@@ -86,6 +82,22 @@ public class ShopActivity extends AppCompatActivity {
 
         mNotificationHandler = new NotificationHandler(this);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        // GET PERMISSION FOR NOTIFICATIONS
+        if(Build.VERSION.SDK_INT >= 33) {
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Engedélyezd az értesítéseket.")
+                        .setMessage("Ez azért kell, hogy tudjunk értesítéseket küldeni.\n\nDurva, mi?")
+                        .setPositiveButton("Ok", (dialog, which) -> {
+                            ActivityCompat.requestPermissions(this,
+                                    new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                                    666);
+                        })
+                        .setNegativeButton("Kihagyom", (dialog, which) -> dialog.dismiss())
+                        .show();
+            }
+        }
 
         queryData();
         initializeData();
@@ -159,6 +171,7 @@ public class ShopActivity extends AppCompatActivity {
         return true;
     }
 
+    // MENU STUFF
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -175,9 +188,8 @@ public class ShopActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.shop_cart) {
-            return true;
-        }
-        else if(id == R.id.shop_search_bar) {
+            Intent intent = new Intent(ShopActivity.this, CartActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -237,17 +249,16 @@ public class ShopActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+    // COUPON NOTIFICATION SETUP
     private void setAlarmManager() {
         long repeatInterval = 60;
         long triggerTime = SystemClock.elapsedRealtime() + repeatInterval;
 
         Intent intent = new Intent(this, AlarmReceiver.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CART, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_COUPON, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, repeatInterval, pendingIntent);
-
-        // mAlarmManager.cancel(pendingIntent);
     }
 
     // SEND NOTIFICATION WHEN PUT ON TRAY TO ANNOY THE USER
@@ -255,12 +266,5 @@ public class ShopActivity extends AppCompatActivity {
     protected void onUserLeaveHint() {
         mNotificationHandler.send("Koppintson ide a kosár megtekintéséhez.", NOTIFICATION_CART);
         super.onUserLeaveHint();
-    }
-
-    // PUT IN CART
-    @Override
-    protected void onResume() {
-        mNotificationHandler.cancel(NOTIFICATION_CART);
-        super.onResume();
     }
 }

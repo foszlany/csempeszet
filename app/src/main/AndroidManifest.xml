@@ -15,10 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Csempeszet"
         tools:targetApi="31">
+        <activity
+            android:name=".CartItem"
+            android:exported="false" />
+        <activity
+            android:name=".GamblingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
 
         <activity
             android:name=".ShopActivity"
@@ -34,7 +44,7 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>
