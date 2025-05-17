@@ -21,6 +21,8 @@
     <string name="shop_menu_filter_all">Összes</string>
     <string name="shop_menu_filter_pricehl">Ár szerint csökkenő</string>
     <string name="shop_menu_filter_pricelh">Ár szerint növekvő</string>
+    <string name="shop_menu_filter_az">A-Z</string>
+    <string name="shop_menu_filter_za">Z-A</string>
 
     <string-array name="shop_item_names">
         <item>Bézs csempe</item>

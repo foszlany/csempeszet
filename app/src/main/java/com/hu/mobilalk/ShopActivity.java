@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -31,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -92,10 +95,15 @@ public class ShopActivity extends AppCompatActivity {
     private void queryData() {
         mItemList.clear();
         mItems.orderBy("name").limit(20).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+            mItemList.clear();
+
+            for(QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                 mItemList.add(doc.toObject(ShopItem.class));
             }
+
             mAdapter.notifyDataSetChanged();
+
+            slideAnim();
         });
     }
 
@@ -127,7 +135,6 @@ public class ShopActivity extends AppCompatActivity {
         item_images.recycle();
     }
 
-    String[] bankNames={"BOI","SBI","HDFC","PNB","OBC"};
     // MENU BAR
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,27 +163,28 @@ public class ShopActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.shop_logout) {
+        if(id == R.id.shop_logout) {
             FirebaseAuth.getInstance().signOut();
             finish();
             return true;
         }
-        else if (id == R.id.shop_filter) {
+        else if(id == R.id.shop_filter) {
             View menuItemView = findViewById(R.id.shop_filter);
             PopupMenu popup = initPopup(menuItemView);
             popup.show();
             return true;
         }
-        else if (id == R.id.shop_cart) {
+        else if(id == R.id.shop_cart) {
             return true;
         }
-        else if (id == R.id.shop_search_bar) {
+        else if(id == R.id.shop_search_bar) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    // FILTERS (SORTING / QUERIES)
     @NonNull
     private PopupMenu initPopup(View menuItemView) {
         PopupMenu popup = new PopupMenu(this, menuItemView);
@@ -184,19 +192,44 @@ public class ShopActivity extends AppCompatActivity {
         popup.inflate(R.menu.shop_filter_menu);
         popup.setOnMenuItemClickListener(menuItem -> {
             int menuId = menuItem.getItemId();
+            Query query = mItems;
 
-            if (menuId == R.id.menu_filter_all) {
-
+            if(menuId == R.id.menu_filter_all) {
+                query = mItems.limit(20);
             }
-            else if (menuId == R.id.shop_filter_pricehl) {
-
+            if(menuId == R.id.shop_filter_az) {
+                query = mItems.orderBy("name", Query.Direction.ASCENDING).limit(20);
             }
-            else if (menuId == R.id.shop_filter_pricelh) {
-
+            if(menuId == R.id.shop_filter_za) {
+                query = mItems.orderBy("name", Query.Direction.DESCENDING).limit(20);
             }
+            else if(menuId == R.id.shop_filter_pricehl) {
+                query = mItems.orderBy("price", Query.Direction.DESCENDING).limit(20);
+            }
+            else if(menuId == R.id.shop_filter_pricelh) {
+                query = mItems.orderBy("price", Query.Direction.ASCENDING).limit(20);
+            }
+
+            query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+                mItemList.clear();
+
+                for(QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    mItemList.add(doc.toObject(ShopItem.class));
+                }
+
+                mAdapter.notifyDataSetChanged();
+
+                slideAnim();
+            });
+
             return true;
         });
         return popup;
+    }
+
+    private void slideAnim() {
+        Animation slideFadeIn = AnimationUtils.loadAnimation(this, R.anim.slide_n_fade);
+        mRecyclerView.startAnimation(slideFadeIn);
     }
 
     @Override

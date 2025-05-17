@@ -4,6 +4,12 @@
         android:id="@+id/menu_filter_all"
         android:title="@string/shop_menu_filter_all" />
     <item
+        android:id="@+id/shop_filter_az"
+        android:title="@string/shop_menu_filter_az" />
+    <item
+        android:id="@+id/shop_filter_za"
+        android:title="@string/shop_menu_filter_za" />
+    <item
         android:id="@+id/shop_filter_pricehl"
         android:title="@string/shop_menu_filter_pricehl" />
     <item
