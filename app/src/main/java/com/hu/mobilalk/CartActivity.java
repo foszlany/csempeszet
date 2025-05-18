@@ -197,6 +197,11 @@ public class CartActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.shop_profile) {
+            Intent intent = new Intent(CartActivity.this, ProfileActivity.class);
+            startActivity(intent);
+            return true;
+        }
         else if(id == R.id.shop_home) {
             Intent intent = new Intent(CartActivity.this, ShopActivity.class);
             startActivity(intent);

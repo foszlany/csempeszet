@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/shop_home"
+        android:id="@+id/shop_home_alt"
         android:title="@string/shop_home"
         android:icon="@drawable/home"
         android:tint="@android:color/white"
@@ -10,15 +10,15 @@
         />
 
     <item
-        android:id="@+id/shop_profile"
-        android:title="@string/profile"
-        android:icon="@drawable/profile"
+        android:id="@+id/shop_cart_alt"
+        android:title="@string/shop_cart"
+        android:icon="@drawable/cart"
         android:tint="@android:color/white"
         app:showAsAction="always"
         />
 
     <item
-        android:id="@+id/shop_logout_alt"
+        android:id="@+id/shop_logout_alter"
         android:title="@string/shop_log_out"
         android:icon="@drawable/logout"
         android:tint="@android:color/white"

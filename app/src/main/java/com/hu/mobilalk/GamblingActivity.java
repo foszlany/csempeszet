@@ -144,6 +144,10 @@ public class GamblingActivity extends AppCompatActivity {
                     editor.putString("coupon", multiplierStr);
                     editor.apply();
                 }
+                else { // LOSE
+                    editor.putString("coupon", "1");
+                    editor.apply();
+                }
 
                 showResult(items[selectedIndex]);
             }

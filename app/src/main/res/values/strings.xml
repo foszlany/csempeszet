@@ -30,6 +30,10 @@
     <string name="cart_item_plus">+</string>
     <string name="cart_item_minus">-</string>
     <string name="cart_order">Megrendelés</string>
+    <string name="profile">Profil</string>
+    <string name="profile_delete_account">Profilom törlése</string>
+    <string name="profile_new_password">Új jelszó (8 - 32 karakter)</string>
+    <string name="profile_change_password">Jelszó változtatása</string>
 
     <string-array name="shop_item_names">
         <item>Bézs csempe</item>

@@ -6,7 +6,6 @@ import static com.hu.mobilalk.CartActivity.mItemList;
 import static com.hu.mobilalk.CartActivity.updateTotalUIParam;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -29,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHolder> implements Filterable {
