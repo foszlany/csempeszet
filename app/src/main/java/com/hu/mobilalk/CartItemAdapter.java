@@ -2,7 +2,11 @@ package com.hu.mobilalk;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static com.hu.mobilalk.CartActivity.mItemList;
+import static com.hu.mobilalk.CartActivity.updateTotalUIParam;
+
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -15,20 +19,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHolder> implements Filterable {
     private ArrayList<ShopItem> mItems;
-    private Context mContext;
+    private static Context mContext;
+    static SharedPreferences prefs;
+    static SharedPreferences.Editor editor;
 
     CartItemAdapter(Context context, ArrayList<ShopItem> items) {
         this.mItems = items;
-        this.mContext = context;
+        mContext = context;
+
+        prefs = context.getSharedPreferences("cart", MODE_PRIVATE);
+        editor = prefs.edit();
     }
 
     @NonNull
@@ -46,7 +61,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mItems.size();
     }
 
     @Override
@@ -75,20 +90,60 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
         @SuppressLint("SetTextI18n")
         public void bindTo(ShopItem currentItem) {
             title.setText(currentItem.getName());
-            price.setText(String.valueOf(currentItem.getPrice()) + " Ft");
+            price.setText(currentItem.getPrice() + " Ft");
             Glide.with(mContext).load(currentItem.getImage_resource()).into(image);
+            quantityText.setText(String.valueOf(currentItem.getQuantity()));
 
+            // ADD TO QUANTITY
             btnPlus.setOnClickListener(v -> {
-                int quantity = Integer.parseInt(quantityText.getText().toString());
-                quantityText.setText(String.valueOf(quantity + 1));
+                int quantity = currentItem.getQuantity() + 1;
+                currentItem.setQuantity(quantity);
+                quantityText.setText(String.valueOf(quantity));
+                updateCartQuantity(currentItem.getName(), quantity);
+                updateTotalUIParam(currentItem.getPrice());
             });
 
+            // REMOVE FROM QUANTITY
             btnMinus.setOnClickListener(v -> {
-                int quantity = Integer.parseInt(quantityText.getText().toString());
-                if(quantity > 1) {
-                    quantityText.setText(String.valueOf(quantity - 1));
+                int newQuantity = currentItem.getQuantity() - 1;
+
+                if(newQuantity >= 1) {
+                    currentItem.setQuantity(newQuantity);
+                    quantityText.setText(String.valueOf(newQuantity));
                 }
+                else {
+                    mItemList.remove(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
+                }
+
+                updateTotalUIParam(currentItem.getPrice() * -1);
+                updateCartQuantity(currentItem.getName(), newQuantity);
             });
+        }
+
+        private void updateCartQuantity(String itemName, int newQuantity) {
+            String json = prefs.getString("cart", "[]");
+            try {
+                JSONArray jsonArray = new JSONArray(json);
+
+                for(int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    if(obj.getString("name").equals(itemName)) {
+                        if(newQuantity >= 1) {
+                            obj.put("quantity", newQuantity);
+                        }
+                        else {
+                            jsonArray.remove(i);
+                        }
+                        editor.putString("cart", jsonArray.toString());
+                        editor.apply();
+                        break;
+                    }
+                }
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

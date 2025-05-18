@@ -83,6 +83,8 @@ public class ShopActivity extends AppCompatActivity {
         mNotificationHandler = new NotificationHandler(this);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+        mNotificationHandler.cancel(NOTIFICATION_CART);
+
         // GET PERMISSION FOR NOTIFICATIONS
         if(Build.VERSION.SDK_INT >= 33) {
             if(ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -251,7 +253,7 @@ public class ShopActivity extends AppCompatActivity {
 
     // COUPON NOTIFICATION SETUP
     private void setAlarmManager() {
-        long repeatInterval = 60;
+        long repeatInterval = 1;
         long triggerTime = SystemClock.elapsedRealtime() + repeatInterval;
 
         Intent intent = new Intent(this, AlarmReceiver.class);

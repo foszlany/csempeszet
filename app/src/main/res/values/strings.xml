@@ -29,6 +29,7 @@
     <string name="shop_home">Vissza a főmenübe</string>
     <string name="cart_item_plus">+</string>
     <string name="cart_item_minus">-</string>
+    <string name="cart_order">Megrendelés</string>
 
     <string-array name="shop_item_names">
         <item>Bézs csempe</item>

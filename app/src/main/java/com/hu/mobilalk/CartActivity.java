@@ -8,11 +8,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -34,13 +35,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
-    private ArrayList<ShopItem> mItemList;
+    protected static ArrayList<ShopItem> mItemList;
     private CollectionReference mItems;
     private CartItemAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private NotificationHandler mNotificationHandler;
-    SharedPreferences prefs;
-    SharedPreferences.Editor editor;
+    static SharedPreferences prefs_cart;
+    static SharedPreferences prefs_coupon;
+    SharedPreferences.Editor editor_cart;
+    SharedPreferences.Editor editor_coupon;
+    private static TextView totalText;
+
+    private static int total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +66,27 @@ public class CartActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        prefs = this.getSharedPreferences("cart", MODE_PRIVATE);
-        editor = prefs.edit();
+        findViewById(R.id.cart_checkout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialog = new AlertDialog.Builder(CartActivity.this)
+                        .setTitle("Sikeres rendelés!")
+                        .setMessage("Megrendelése sikeres.\n\nKöszönjük, hogy velünk csempészett!")
+                        .setPositiveButton("Ok", (d, which) -> {})
+                        .setCancelable(true)
+                        .create();
+                dialog.show();
+            }
+        });
+
+        totalText = findViewById(R.id.cart_total);
+        totalText.setText("0 Ft");
+
+        prefs_cart = this.getSharedPreferences("cart", MODE_PRIVATE);
+        editor_cart = prefs_cart.edit();
+
+        prefs_coupon = this.getSharedPreferences("coupon", MODE_PRIVATE);
+        editor_coupon = prefs_coupon.edit();
 
         mRecyclerView = findViewById(R.id.cart_recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
@@ -77,43 +102,80 @@ public class CartActivity extends AppCompatActivity {
 
         mNotificationHandler = new NotificationHandler(this);
 
+        total = 0;
+
         queryData();
     }
 
     private void queryData() {
         mItemList.clear();
+        String json = prefs_cart.getString("cart", "[]");
 
-        mItems.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                String json = prefs.getString("cart", "[]");
-                try {
-                    JSONArray jsonArray = new JSONArray(json);
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            ArrayList<String> cartItemNames = new ArrayList<>();
 
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                cartItemNames.add(obj.getString("name"));
+            }
+
+            // CART IS EMPTY
+            if(cartItemNames.isEmpty()) {
+                mAdapter.notifyDataSetChanged();
+                total = 0;
+                updateTotalUI();
+                return;
+            }
+
+            // QUERY CART ITEMS
+            mItems.whereIn("name", cartItemNames).get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    total = 0;
                     for(QueryDocumentSnapshot document : task.getResult()) {
                         ShopItem item = document.toObject(ShopItem.class);
-                        boolean itemExists = false;
                         for(int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject obj = jsonArray.getJSONObject(i);
-                            if(obj.getString("name").equals(item.getName())) {
-                                int quantity = obj.getInt("quantity");
-                                obj.put("quantity", quantity + 1);
-                                itemExists = true;
-                                break;
+                            JSONObject obj;
+                            try {
+                                obj = jsonArray.getJSONObject(i);
+                                if(obj.getString("name").equals(item.getName())) {
+                                    int quantity = obj.getInt("quantity");
+                                    item.setQuantity(quantity);
+                                    mItemList.add(item);
+                                    total += item.getPrice() * quantity;
+                                    break;
+                                }
+                            }
+                            catch (JSONException e) {
+                                throw new RuntimeException(e);
                             }
                         }
-
-                        if(itemExists) {
-                            mItemList.add(item);
-                        }
                     }
+                    mAdapter.notifyDataSetChanged();
+                    updateTotalUI();
                 }
-                catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+            });
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-        mAdapter.notifyDataSetChanged();
+    // UPDATE TOTAL (W/ COUPONS)
+    private static void updateTotalUI() {
+        String coupon = prefs_coupon.getString("coupon", "1");
+
+        double couponValue = Double.parseDouble(coupon);
+        if(couponValue == 1.0 || total == 0) {
+            totalText.setText(total + " Ft");
+        }
+        else {
+            totalText.setText(total + " Ft helyett csak " + (int)Math.round(total * couponValue) + " Ft!");
+        }
+    }
+    protected static void updateTotalUIParam(int n) {
+        total += n;
+        updateTotalUI();
     }
 
     // MENU BAR
@@ -150,10 +212,18 @@ public class CartActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    // PREVENT USER FROM ABUSING THE GAMBLING FEATURE
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(CartActivity.this, ShopActivity.class);
         startActivity(intent);
+    }
+
+    // SEND NOTIFICATION WHEN PUT ON TRAY TO ANNOY THE USER
+    @Override
+    protected void onUserLeaveHint() {
+        mNotificationHandler.send("Koppintson ide a kosár megtekintéséhez.", NOTIFICATION_CART);
+        super.onUserLeaveHint();
     }
 }

@@ -5,6 +5,7 @@ public class ShopItem {
     private String desc;
     private int price;
     private int image_resource;
+    private int quantity; // ONLY USED FOR CART
 
     public ShopItem() {}
 
@@ -13,6 +14,7 @@ public class ShopItem {
         this.name = name;
         this.price = price;
         this.desc = desc;
+        this.quantity = 0;
     }
 
     public String getName() {
@@ -41,5 +43,17 @@ public class ShopItem {
 
     public int getImage_resource() {
         return image_resource;
+    }
+
+    public void setImage_resource(int image_resource) {
+        this.image_resource = image_resource;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

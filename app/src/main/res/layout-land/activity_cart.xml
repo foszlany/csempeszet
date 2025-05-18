@@ -7,6 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".CartActivity">
 
+    <Button
+        android:id="@+id/cart_checkout"
+        android:layout_width="140dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:text="@string/cart_order"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cart_total"
+        app:layout_constraintVertical_bias="0.36" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -19,5 +34,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id='@+id/cart_recycler_view'
+        android:layout_width="705dp"
+        android:layout_height="192dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/cart_total"
+        android:layout_width="359dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:text="FIZETENDO: 699 Ft"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cart_recycler_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

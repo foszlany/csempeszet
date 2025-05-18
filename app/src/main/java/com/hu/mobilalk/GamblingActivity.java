@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -32,9 +33,10 @@ public class GamblingActivity extends AppCompatActivity {
 
     private HorizontalScrollView scrollView;
     private LinearLayout itemsContainer;
-    private ValueAnimator initialAnimator;
-    private final String[] items = {"Vesztett!", "-5%", "Vesztett!", "-10%", "Vesztett", "-15%", "Vesztett", "-20%", "Vesztett!", "-25%", "Vesztett!", "-30%", "Vesztett!", "-40%", "Vesztett!", "-50%", "Vesztett!"};
+    private final String[] items = {"Vesztett!", "-5%", "Vesztett!", "-10%", "Vesztett!", "-15%", "Vesztett!", "-20%", "Vesztett!", "-25%", "Vesztett!", "-30%", "Vesztett!", "-40%", "Vesztett!", "-50%", "Vesztett!"};
     private final int ITEM_WIDTH_DP = 100;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -47,6 +49,9 @@ public class GamblingActivity extends AppCompatActivity {
         if(user == null) {
             finish();
         }
+
+        prefs = this.getSharedPreferences("coupon", MODE_PRIVATE);
+        editor = prefs.edit();
 
         scrollView = findViewById(R.id.scrollView);
         itemsContainer = findViewById(R.id.itemsContainer);
@@ -133,7 +138,11 @@ public class GamblingActivity extends AppCompatActivity {
 
                 // APPLY COUPON
                 if(!"Vesztett!".equals(items[selectedIndex])) {
-                    // TODO
+                    String numStr = items[selectedIndex].substring(1, items[selectedIndex].length() - 1);
+                    String multiplierStr = String.valueOf(1 - (Double.parseDouble(numStr) / 100));
+
+                    editor.putString("coupon", multiplierStr);
+                    editor.apply();
                 }
 
                 showResult(items[selectedIndex]);

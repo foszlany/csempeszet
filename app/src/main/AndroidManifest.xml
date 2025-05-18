@@ -16,9 +16,6 @@
         android:theme="@style/Theme.Csempeszet"
         tools:targetApi="31">
         <activity
-            android:name=".CartItem"
-            android:exported="false" />
-        <activity
             android:name=".GamblingActivity"
             android:exported="false" />
         <activity
