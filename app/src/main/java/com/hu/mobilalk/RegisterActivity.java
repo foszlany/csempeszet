@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // ENGLISH SPEECH TO TEXT
-    private void startSpeechToText(View view) {
+    public void startSpeechToText(View view) {
         // GET PERMISSION
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             new AlertDialog.Builder(this)
