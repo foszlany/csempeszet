@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +48,9 @@ public class GamblingActivity extends AppCompatActivity {
         // UNAUTHENTICATED USER
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) {
-            finish();
+            Toast.makeText(this, "Nem vagy bejelentkezve!\nA kupon elúszott...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(GamblingActivity.this, MainActivity.class);
+            startActivity(intent);
         }
 
         prefs = this.getSharedPreferences("coupon", MODE_PRIVATE);

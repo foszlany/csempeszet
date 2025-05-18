@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +39,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ShopActivity extends AppCompatActivity {
     private FirebaseUser user;
@@ -254,7 +256,8 @@ public class ShopActivity extends AppCompatActivity {
 
     // COUPON NOTIFICATION SETUP
     private void setAlarmManager() {
-        long repeatInterval = 1;
+        Random r = new Random();
+        long repeatInterval = 10000;
         long triggerTime = SystemClock.elapsedRealtime() + repeatInterval;
 
         Intent intent = new Intent(this, AlarmReceiver.class);
@@ -269,5 +272,17 @@ public class ShopActivity extends AppCompatActivity {
     protected void onUserLeaveHint() {
         mNotificationHandler.send("Koppintson ide a kosár megtekintéséhez.", NOTIFICATION_CART);
         super.onUserLeaveHint();
+    }
+
+    @Override
+    protected void onResume() {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null) {
+            Toast.makeText(this, "Nem vagy bejelentkezve!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ShopActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        super.onResume();
     }
 }

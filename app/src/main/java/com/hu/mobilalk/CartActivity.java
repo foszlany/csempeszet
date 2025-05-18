@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -62,6 +63,7 @@ public class CartActivity extends AppCompatActivity {
         // UNAUTHENTICATED USER
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null) {
+            Toast.makeText(this, "Nem vagy bejelentkezve!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CartActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -218,6 +220,13 @@ public class CartActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null) {
+            Toast.makeText(this, "Nem vagy bejelentkezve!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CartActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
         mNotificationHandler.cancel(NOTIFICATION_CART);
         super.onResume();
     }

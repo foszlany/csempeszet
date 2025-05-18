@@ -1,5 +1,7 @@
 package com.hu.mobilalk;
 
+import static com.hu.mobilalk.NotificationHandler.NOTIFICATION_CART;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -154,5 +156,16 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.makeText(ProfileActivity.this, "Sikertelen jelszóváltoztatás!", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null) {
+            Toast.makeText(this, "Nem vagy bejelentkezve!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        super.onResume();
     }
 }

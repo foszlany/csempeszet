@@ -1,5 +1,7 @@
 package com.hu.mobilalk;
 
+import static com.hu.mobilalk.NotificationHandler.NOTIFICATION_CART;
+
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +22,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    private NotificationHandler mNotificationHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
+
+        mNotificationHandler = new NotificationHandler(this);
+        mNotificationHandler.cancel(NOTIFICATION_CART);
 
         this.email = findViewById(R.id.login_edittext_email);
         this.password = findViewById(R.id.login_edittext_password);
@@ -142,5 +150,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Sikertelen bejelentkezés!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        mNotificationHandler.cancel(NOTIFICATION_CART);
+        super.onResume();
     }
 }
