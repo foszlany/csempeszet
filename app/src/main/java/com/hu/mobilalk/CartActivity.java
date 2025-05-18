@@ -35,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
-    protected static ArrayList<ShopItem> mItemList;
+    protected ArrayList<ShopItem> mItemList;
     private CollectionReference mItems;
     private CartItemAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -94,7 +94,7 @@ public class CartActivity extends AppCompatActivity {
         mItems = FirebaseFirestore.getInstance().collection("Items");
 
         mItemList = new ArrayList<>();
-        mAdapter = new CartItemAdapter(this, mItemList);
+        mAdapter = new CartItemAdapter(this, mItemList, this);
         mRecyclerView.setAdapter(mAdapter);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -176,6 +176,11 @@ public class CartActivity extends AppCompatActivity {
     protected static void updateTotalUIParam(int n) {
         total += n;
         updateTotalUI();
+    }
+
+    // REMOVE ELEMENT UPON
+    protected void removeElement(int el) {
+        mItemList.remove(el);
     }
 
     // MENU BAR

@@ -2,7 +2,7 @@ package com.hu.mobilalk;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import static com.hu.mobilalk.CartActivity.mItemList;
+// import static com.hu.mobilalk.CartActivity.mItemList;
 import static com.hu.mobilalk.CartActivity.updateTotalUIParam;
 
 import android.annotation.SuppressLint;
@@ -34,13 +34,16 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
     private static Context mContext;
     static SharedPreferences prefs;
     static SharedPreferences.Editor editor;
+    private CartActivity cartActivity;
 
-    CartItemAdapter(Context context, ArrayList<ShopItem> items) {
+    CartItemAdapter(Context context, ArrayList<ShopItem> items, CartActivity cartActivity) {
         this.mItems = items;
         mContext = context;
 
         prefs = context.getSharedPreferences("cart", MODE_PRIVATE);
         editor = prefs.edit();
+
+        this.cartActivity = cartActivity;
     }
 
     @NonNull
@@ -87,7 +90,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
         @SuppressLint("SetTextI18n")
         public void bindTo(ShopItem currentItem) {
             title.setText(currentItem.getName());
-            price.setText(currentItem.getPrice() + " Ft");
+            price.setText(String.valueOf(currentItem.getPrice()) + " Ft");
             Glide.with(mContext).load(currentItem.getImage_resource()).into(image);
             quantityText.setText(String.valueOf(currentItem.getQuantity()));
 
@@ -109,8 +112,9 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.ViewHo
                     quantityText.setText(String.valueOf(newQuantity));
                 }
                 else {
-                    mItemList.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
+                    int pos = getAdapterPosition();
+                    cartActivity.removeElement(pos);
+                    notifyItemRemoved(pos);
                 }
 
                 updateTotalUIParam(currentItem.getPrice() * -1);

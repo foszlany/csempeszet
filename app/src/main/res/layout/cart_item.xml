@@ -47,17 +47,16 @@
 
             <TextView
                 android:id="@+id/cart_item_price"
-                android:layout_width="47dp"
-                android:layout_height="24dp"
+                android:layout_width="89dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/shop_price"
                 android:textSize="19sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/cart_item_control_container"
-                app:layout_constraintHorizontal_bias="0.111"
-                app:layout_constraintStart_toEndOf="@id/cart_item_img"
+                app:layout_constraintStart_toEndOf="@+id/cart_item_img"
                 app:layout_constraintTop_toBottomOf="@id/cart_item_title"
-                app:layout_constraintVertical_bias="0.833"
+                app:layout_constraintVertical_bias="0.666"
                 tools:text="999 Ft" />
 
             <LinearLayout
