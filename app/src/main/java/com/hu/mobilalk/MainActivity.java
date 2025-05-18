@@ -1,32 +1,38 @@
 package com.hu.mobilalk;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getName();
+    private static final int SPEECH_REQUEST_CODE = 888;
 
     private EditText email;
     private EditText password;
+    private ImageButton btn_mic;
 
     private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,53 @@ public class MainActivity extends AppCompatActivity {
 
         this.email = findViewById(R.id.login_edittext_email);
         this.password = findViewById(R.id.login_edittext_password);
+
+        btn_mic = findViewById(R.id.login_btn_mic);
+        btn_mic.setOnClickListener(v -> startSpeechToText(v));
+    }
+
+    // ENGLISH SPEECH TO TEXT
+    private void startSpeechToText(View view) {
+        // GET PERMISSION
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Mikrofonhasználat")
+                    .setMessage("Ha szeretnéd használni a mikrofont, engedélyezned kell azt.")
+                    .setPositiveButton("Ok", (dialog, which) -> {
+                        ActivityCompat.requestPermissions(
+                                this,
+                                new String[]{android.Manifest.permission.RECORD_AUDIO},
+                                888
+                        );
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Kihagyom", (dialog, which) -> dialog.dismiss())
+                    .show();
+        }
+        else {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Beszélj angolul...");
+
+            try {
+                startActivityForResult(intent, SPEECH_REQUEST_CODE);
+            }
+            catch(ActivityNotFoundException e) {
+                Toast.makeText(this, "Nem támogatott a beszédérzékelés!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if(result != null && !result.isEmpty()) {
+                email.setText(result.get(0));
+            }
+        }
     }
 
     // OPENS REGISTER ACTIVITY

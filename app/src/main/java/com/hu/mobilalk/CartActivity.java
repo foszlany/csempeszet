@@ -71,7 +71,7 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog dialog = new AlertDialog.Builder(CartActivity.this)
                         .setTitle("Sikeres rendelés!")
-                        .setMessage("Megrendelése sikeres.\n\nKöszönjük, hogy velünk csempészett!")
+                        .setMessage("Megrendelése sikeres.\n\n" + (total == 0 ? "A semmit majd digitálisan átküldjük, számlát igény szerint adunk.\n(De azért fizetni is kell)" : "Köszönjük, hogy velünk csempészett!"))
                         .setPositiveButton("Ok", (d, which) -> {})
                         .setCancelable(true)
                         .create();

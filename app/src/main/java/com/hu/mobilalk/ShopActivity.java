@@ -89,7 +89,7 @@ public class ShopActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= 33) {
             if(ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 new AlertDialog.Builder(this)
-                        .setTitle("Engedélyezd az értesítéseket.")
+                        .setTitle("Értesítések")
                         .setMessage("Ez azért kell, hogy tudjunk értesítéseket küldeni.\n\nDurva, mi?")
                         .setPositiveButton("Ok", (dialog, which) -> {
                             ActivityCompat.requestPermissions(this,
@@ -180,7 +180,8 @@ public class ShopActivity extends AppCompatActivity {
 
         if(id == R.id.shop_logout) {
             FirebaseAuth.getInstance().signOut();
-            finish();
+            Intent intent = new Intent(ShopActivity.this, MainActivity.class);
+            startActivity(intent);
             return true;
         }
         else if(id == R.id.shop_filter) {

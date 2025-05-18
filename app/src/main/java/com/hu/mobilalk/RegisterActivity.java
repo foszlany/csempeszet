@@ -1,9 +1,12 @@
 package com.hu.mobilalk;
 
 import android.animation.ValueAnimator;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -11,21 +14,29 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+
 public class RegisterActivity extends AppCompatActivity {
     private static final String LOG_TAG = RegisterActivity.class.getName();
+    private static final int SPEECH_REQUEST_CODE = 1337;
 
     private EditText email;
     private EditText password_1;
     private EditText password_2;
     private CheckBox data;
+    private ImageButton btn_mic;
 
     private FirebaseAuth mAuth;
 
@@ -40,6 +51,9 @@ public class RegisterActivity extends AppCompatActivity {
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         View text_decoration = findViewById(R.id.text_decoration);
         text_decoration.startAnimation(fadeIn);
+
+        btn_mic = findViewById(R.id.register_btn_mic);
+        btn_mic.setOnClickListener(this::startSpeechToText);
 
         this.email = findViewById(R.id.register_edittext_email);
         this.password_1 = findViewById(R.id.register_edittext_password);
@@ -64,6 +78,50 @@ public class RegisterActivity extends AppCompatActivity {
         animator.addUpdateListener(animation -> ((TextView) view).setTextColor((int) animation.getAnimatedValue()));
 
         animator.start();
+    }
+
+    // ENGLISH SPEECH TO TEXT
+    private void startSpeechToText(View view) {
+        // GET PERMISSION
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Mikrofonhasználat")
+                    .setMessage("Ha szeretnéd használni a mikrofont, engedélyezned kell azt.")
+                    .setPositiveButton("Ok", (dialog, which) -> {
+                        ActivityCompat.requestPermissions(
+                                this,
+                                new String[]{android.Manifest.permission.RECORD_AUDIO},
+                                777
+                        );
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Kihagyom", (dialog, which) -> dialog.dismiss())
+                    .show();
+        }
+        else {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Beszélj angolul...");
+
+            try {
+                startActivityForResult(intent, SPEECH_REQUEST_CODE);
+            }
+            catch(ActivityNotFoundException e) {
+                Toast.makeText(this, "Nem támogatott a beszédérzékelés!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if(result != null && !result.isEmpty()) {
+                email.setText(result.get(0));
+            }
+        }
     }
 
     // OPENS LOGIN ACTIVITY
